@@ -1,5 +1,7 @@
 import requests, json, csv
 from urllib.request import urlopen
+import numpy as np
+import pandas as pd
 
 url = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList'
 req_service_key = '?serviceKey=44aQB7sVFWrqaxR74AML73ldow%2BVsbLvf9roE3Hg5arKLW5TMAU92AkTwum9sG0TTWkT%2ByeME6fjl7xYw5CjXQ%3D%3D'
@@ -68,8 +70,27 @@ for i in data:
     arr[3] += float(i["avgTca"])
     arr[4] += float(i["avgLmac"])
 
+
 print("=======================================================================================================================================================")
 print('"월 평균 기온: %.2f\t월 평균 일조시간: %.2f시간\t월 평균 상대습도: %.2f%%\t월 평균 전운량: %.2f(10분위)\t월 평균 중하층운량: %.2f(10분위)'%(arr[0]/days,arr[1]/days,arr[2]/days,arr[3]/days,arr[4]/days))
-    
+
+f = open(r'data.csv','w',newline='')
+
+w = csv.writer(f)
+w.writerow(['날짜', '지역'])
+arr = [0.0] * 5
+for i in data:
+    w.writerow([i["tm"]+"\t"+i["stnNm"]+'\t평균 기온: '+i["avgTa"]+'\t합계 일조시간: '+i["sumSsHr"]+'\t평균 상대습도: '+i["avgRhm"]+"\t평균 전운량: "+i["avgTca"]+"\t평균 중하층운량: "+i["avgLmac"]]) 
+    arr[0] += float(i["avgTa"])
+    arr[1] += float(i["sumSsHr"])
+    arr[2] += float(i["avgRhm"])
+    arr[3] += float(i["avgTca"])
+    arr[4] += float(i["avgLmac"])
+
+
+w.writerow(['"월 평균 기온: %.2f\t월 평균 일조시간: %.2f시간\t월 평균 상대습도: %.2f%%\t월 평균 전운량: %.2f(10분위)\t월 평균 중하층운량: %.2f(10분위)'%(arr[0]/days,arr[1]/days,arr[2]/days,arr[3]/days,arr[4]/days)]) 
+
+f.close()
+
 
 
