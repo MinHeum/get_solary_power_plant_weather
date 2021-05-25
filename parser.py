@@ -70,27 +70,26 @@ for i in data:
     arr[3] += float(i["avgTca"])
     arr[4] += float(i["avgLmac"])
 
-
 print("=======================================================================================================================================================")
 print('"월 평균 기온: %.2f\t월 평균 일조시간: %.2f시간\t월 평균 상대습도: %.2f%%\t월 평균 전운량: %.2f(10분위)\t월 평균 중하층운량: %.2f(10분위)'%(arr[0]/days,arr[1]/days,arr[2]/days,arr[3]/days,arr[4]/days))
-
-f = open(r'data.csv','w',newline='')
+    
+f = open(r'data.csv','w', encoding='utf-8-sig', newline='')
 
 w = csv.writer(f)
-w.writerow(['날짜', '지역'])
+w.writerow({'day'})
 arr = [0.0] * 5
 for i in data:
-    w.writerow([i["tm"]+"\t"+i["stnNm"]+'\t평균 기온: '+i["avgTa"]+'\t합계 일조시간: '+i["sumSsHr"]+'\t평균 상대습도: '+i["avgRhm"]+"\t평균 전운량: "+i["avgTca"]+"\t평균 중하층운량: "+i["avgLmac"]]) 
+    w.writerow([i["tm"]+":"+i["stnNm"]+':평균 기온: '+i["avgTa"]+':합계 일조시간: '+i["sumSsHr"]+':평균 상대습도: '+i["avgRhm"]+":평균 전운량: "+i["avgTca"]+":평균 중하층운량: "+i["avgLmac"]]) 
     arr[0] += float(i["avgTa"])
     arr[1] += float(i["sumSsHr"])
     arr[2] += float(i["avgRhm"])
     arr[3] += float(i["avgTca"])
     arr[4] += float(i["avgLmac"])
 
-
-w.writerow(['"월 평균 기온: %.2f\t월 평균 일조시간: %.2f시간\t월 평균 상대습도: %.2f%%\t월 평균 전운량: %.2f(10분위)\t월 평균 중하층운량: %.2f(10분위)'%(arr[0]/days,arr[1]/days,arr[2]/days,arr[3]/days,arr[4]/days)]) 
+w.writerow(['"월 평균 기온: %.2f:월 평균 일조시간: %.2f시간:월 평균 상대습도: %.2f%%:월 평균 전운량: %.2f(10분위):월 평균 중하층운량: %.2f(10분위)'%(arr[0]/days,arr[1]/days,arr[2]/days,arr[3]/days,arr[4]/days)]) 
 
 f.close()
+
 
 
 
